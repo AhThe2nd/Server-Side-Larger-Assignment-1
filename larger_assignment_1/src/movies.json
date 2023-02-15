@@ -13,7 +13,7 @@
             "release_date" : "08/01/2003",
             "actors" : ["Ben Affleck", "Jennifer Lopez"],
             "poster" : "INSERT POSTER URL OR ADDRESS",
-            "rating" : 1.5
+            "rating" : 1
         },
 
         {
@@ -21,7 +21,7 @@
             "release_date" : "12/19/1997",
             "actors" : ["Kate Winslett", "Leonardo DiCaprio", "Billy Zane"],
             "poster" : "INSERT POSTER URL OR ADDRESS",
-            "rating" : 4.5
+            "rating" : 4
         },
 
         {
@@ -29,7 +29,7 @@
             "release_date" : "02/17/2006",
             "actors" : ["Hugo Weaving", "Natalie Portman", "Stephen Fry"],
             "poster" : "INSERT POSTER URL OR ADDRESS",
-            "rating" : 4
+            "rating" : 3
         },
 
         {
@@ -37,7 +37,7 @@
             "release_date" : "06/15/1994",
             "actors" : ["James Earl Jones", "Matthew Broderick", "Rowan Atkinson", "Jonathan Taylor Thomas"],
             "poster" : "INSERT POSTER URL OR ADDRESS",
-            "rating" : 4.5
+            "rating" : 4
         }
     ]
 }
