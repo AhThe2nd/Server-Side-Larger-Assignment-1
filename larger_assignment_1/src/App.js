@@ -26,7 +26,15 @@ function MovieList(props){
   )
 }
 
-function App(){
+export function AddMovie(){
+  return(
+    <div>
+      <h1>Form goes here</h1>
+    </div>
+  )
+}
+
+export function Home(){
   return(
     <>
       <Header name="Andrew"></Header>
@@ -35,4 +43,10 @@ function App(){
   )
 }
 
-export default App;
+export function App(){
+  return(
+    <>
+      <Home />;
+    </>
+  )
+}
