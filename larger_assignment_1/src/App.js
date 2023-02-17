@@ -1,7 +1,6 @@
 import './App.css';
-import Movies from './movies.json';
 import {Link} from "react-router-dom";
-import { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 function Header(props){
   return(
@@ -12,22 +11,45 @@ function Header(props){
 
 function MovieList(props){
   return (
-    <ul>
+    <>
       {
-        props.fav_movies.map((movie, i) => (
-          <ul key={i}>
-          <li>{movie.name}</li>
-          <li>{movie.release_date}</li>
-          <li>{movie.actors}</li>
-          <li>{movie.poster}</li>
-          <li>{movie.rating}</li>
-      </ul>
-        )
+        props.fav_movies.map((movie) => (
+            <div>
+              <hr></hr>
+              <h2>{movie.name}</h2>
+              <h3>Release Date: {movie.release_date}</h3>
+              <h3>Starring: {displayActorsNames(movie.actors)}</h3>
+              <img src={appendFilePath(movie.poster)} width={250}/>
+              <h4>Rating: {movie.rating}/5 Stars</h4>
+            </div>
+          )
         )
       }
-    </ul>
+    </>    
   )
 }
+
+function displayActorsNames(actorsArray){
+  let actorsNames = "";
+
+  actorsArray.forEach(element => {
+    actorsNames += element;
+    if (actorsArray.indexOf(element) !== actorsArray.length - 1){
+      actorsNames += ", "
+    }
+  });
+  console.log(actorsNames);
+  return actorsNames;
+}
+
+function appendFilePath(filename){
+  let fullImagePath = "./images/";
+  fullImagePath += filename;
+  console.log(fullImagePath);
+  return fullImagePath;
+}
+
+appendFilePath("test.png");
 
 function MovieForm(){
   const txtMovieTitle = useRef();
@@ -87,8 +109,8 @@ export function AddMovie(){
   return(
     <div>
       <h1>New Movie Review</h1>
+      <Link to="/">Back to Movie List</Link><br /><br />
       <MovieForm></MovieForm>
-      <Link to="/">Submit Movie</Link>
     </div>
   )
 }
@@ -105,16 +127,35 @@ export function Home(){
   return(
     <>
       <Header name="Andrew"></Header>
-      <MovieList fav_movies={Movies.movies}></MovieList>
       <ChangePage></ChangePage>
     </>
   )
 }
 
 export function App(){
+
+  let [data, setMovies] = useState(null);
+
+  useEffect(() => {
+    // Load movie data from JSON
+    fetch("./movies.json")
+    .then(response => response.json())
+    .then(setMovies)
+    .catch(e => console.log(e.message))
+  }, [])
+
+  if (data == null){
+    return <h3>Loading movies...</h3>
+  }
+
+  // Convert movies to array
+  let movies = data.movies;
+  console.log(movies);
+
   return(
     <>
       <Home />
+      <MovieList fav_movies={movies}/>
     </>
   )
 }

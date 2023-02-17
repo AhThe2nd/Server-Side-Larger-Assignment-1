@@ -4,7 +4,7 @@
             "name" : "The Shawshank Redemption",
             "release_date" : "09/22/1994",
             "actors" : ["Morgan Freeman", "Tim Robbins", "Bob Gunton"],
-            "poster" : "INSERT POSTER URL OR ADDRESS",
+            "poster" : "crime.png",
             "rating" : 5
         },
 
@@ -12,7 +12,7 @@
             "name" : "Gigli",
             "release_date" : "08/01/2003",
             "actors" : ["Ben Affleck", "Jennifer Lopez"],
-            "poster" : "INSERT POSTER URL OR ADDRESS",
+            "poster" : "romance.png",
             "rating" : 1
         },
 
@@ -20,7 +20,7 @@
             "name" : "Titanic",
             "release_date" : "12/19/1997",
             "actors" : ["Kate Winslett", "Leonardo DiCaprio", "Billy Zane"],
-            "poster" : "INSERT POSTER URL OR ADDRESS",
+            "poster" : "romance.png",
             "rating" : 4
         },
 
@@ -28,7 +28,7 @@
             "name" : "V for Vendetta",
             "release_date" : "02/17/2006",
             "actors" : ["Hugo Weaving", "Natalie Portman", "Stephen Fry"],
-            "poster" : "INSERT POSTER URL OR ADDRESS",
+            "poster" : "adventure.png",
             "rating" : 3
         },
 
@@ -36,7 +36,7 @@
             "name" : "The Lion King",
             "release_date" : "06/15/1994",
             "actors" : ["James Earl Jones", "Matthew Broderick", "Rowan Atkinson", "Jonathan Taylor Thomas"],
-            "poster" : "INSERT POSTER URL OR ADDRESS",
+            "poster" : "animation.png",
             "rating" : 4
         }
     ]
