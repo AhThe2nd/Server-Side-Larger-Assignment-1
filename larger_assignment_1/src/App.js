@@ -38,7 +38,6 @@ function displayActorsNames(actorsArray){
       actorsNames += ", "
     }
   });
-  console.log(actorsNames);
   return actorsNames;
 }
 
@@ -49,14 +48,13 @@ function appendFilePath(filename){
   return fullImagePath;
 }
 
-appendFilePath("test.png");
-
 function MovieForm(){
   const txtMovieTitle = useRef();
   const txtReleaseDate = useRef();
   const txtActors = useRef();
+  const txtPoster = useRef();
+  const txtRating = useRef();
 
-  console.log(txtReleaseDate);
   const submit = (e) => {
     e.preventDefault();
   };
@@ -79,7 +77,7 @@ function MovieForm(){
 
       <label>
         Select a poster: 
-        <select name="poster" id="poster" form="add_movie">
+        <select ref={txtPoster} name="poster" id="poster" form="add_movie">
           <option value="placeholder1">placeholder 1</option>
           <option value="placeholder2">placeholder 2</option>
           <option value="placeholder3">placeholder 3</option>
@@ -91,7 +89,7 @@ function MovieForm(){
 
       <label>
         Select a rating: 
-        <select name="rating" id="rating" form="add_movie">
+        <select ref={txtRating} name="rating" id="rating" form="add_movie">
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -99,36 +97,47 @@ function MovieForm(){
           <option value="5">5</option>
         </select>
       </label><br /><br />
-      
-      <input type="submit" value="Add Movie"/><br /><br />
     </form>
+  )
+}
+
+export function NavBar(){
+  return(
+    <nav>
+      <Link to="/">Movie List</Link>
+      <Link to="/add-movie">Add New Movie</Link>
+    </nav>
   )
 }
 
 export function AddMovie(){
   return(
     <div>
+      <NavBar></NavBar>
       <h1>New Movie Review</h1>
-      <Link to="/">Back to Movie List</Link><br /><br />
       <MovieForm></MovieForm>
+      <SubmitButton/>
     </div>
-  )
-}
-
-export function ChangePage(){
-  return(
-    <nav>
-      <Link to="/add-movie">Add New Movie</Link>
-    </nav>
   )
 }
 
 export function Home(){
   return(
     <>
+      <NavBar></NavBar>
       <Header name="Andrew"></Header>
-      <ChangePage></ChangePage>
     </>
+  )
+}
+
+export function SubmitButton(){
+  const handleClickEvent = () =>{
+    console.log("The button was clicked!")
+  };
+  return(
+    <div>
+      <button type="button" onClick={handleClickEvent}>Add Movie</button>
+    </div>
   )
 }
 
@@ -150,7 +159,6 @@ export function App(){
 
   // Convert movies to array
   let movies = data.movies;
-  console.log(movies);
 
   return(
     <>
