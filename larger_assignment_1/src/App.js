@@ -21,6 +21,7 @@ function MovieList(props){
               <h3>Starring: {displayActorsNames(movie.actors)}</h3>
               <img src={appendFilePath(movie.poster)} width={250}/>
               <h4>Rating: {movie.rating}/5 Stars</h4>
+              <button>Remove</button>
             </div>
           )
         )
@@ -44,8 +45,15 @@ function displayActorsNames(actorsArray){
 function appendFilePath(filename){
   let fullImagePath = "./images/";
   fullImagePath += filename;
-  console.log(fullImagePath);
   return fullImagePath;
+}
+
+function stringToArray(actors){
+  let actorsArray = actors.split(",");
+  actorsArray.forEach(actor => {
+    actor.trim();
+  });
+  return actorsArray;
 }
 
 function MovieForm(){
@@ -57,9 +65,35 @@ function MovieForm(){
 
   const submit = (e) => {
     e.preventDefault();
+
+    // Get values for object literal
+    const newTitle = txtMovieTitle.current.value;
+    const newReleaseDate = txtReleaseDate.current.value;
+    const newActors = txtActors.current.value;
+    const newPoster = txtPoster.current.value;
+    const newRating = txtRating.current.value;
+
+    // Create object literal and add to list of movies
+    var newMovie = {
+      name: newTitle,
+      release_date: newReleaseDate,
+      actors: stringToArray(newActors),
+      poster: newPoster,
+      rating: newRating
+    }
+    alert("Movie review added!")
+    console.log(newMovie);
+
+    // Reset values
+    txtMovieTitle.current.value = "";
+    txtReleaseDate.current.value = "";
+    txtActors.current.value = "";
+    txtPoster.current.value = "";
+    txtRating.current.value = "";
+    
   };
   return(
-    <form onSubmit={submit} id="add_movie">
+    <form onSubmit={submit}>
       <label>
         Enter movie name:
         <input ref={txtMovieTitle} type="text" name="title"/>
@@ -78,11 +112,19 @@ function MovieForm(){
       <label>
         Select a poster: 
         <select ref={txtPoster} name="poster" id="poster" form="add_movie">
-          <option value="placeholder1">placeholder 1</option>
-          <option value="placeholder2">placeholder 2</option>
-          <option value="placeholder3">placeholder 3</option>
-          <option value="placeholder4">placeholder 4</option>
-          <option value="placeholder5">placeholder 5</option>
+          <option value="adventure.png">Adventure</option>
+          <option value="animation.png">Animation</option>
+          <option value="comedy.png">Comedy</option>
+          <option value="crime.png">Crime</option>
+          <option value="drama.png">Drama</option>
+          <option value="historical.png">Historical</option>
+          <option value="horror.png">Horror</option>
+          <option value="musical.png">Musical</option>
+          <option value="mystery.png">Mystery</option>
+          <option value="romance.png">Romance</option>
+          <option value="scifi.png">Science Fiction</option>
+          <option value="war.png">War</option>
+          <option value="western.png">Western</option>
         </select>
       </label><br /><br />
       
@@ -97,11 +139,13 @@ function MovieForm(){
           <option value="5">5</option>
         </select>
       </label><br /><br />
+      <button>Add Movie</button>
     </form>
   )
 }
 
-export function NavBar(){
+// Navigation Bar Component
+export function NavBar(props){
   return(
     <nav>
       <Link to="/">Movie List</Link>
@@ -110,18 +154,18 @@ export function NavBar(){
   )
 }
 
+// Router pages
 export function AddMovie(){
   return(
     <div>
       <NavBar></NavBar>
       <h1>New Movie Review</h1>
       <MovieForm></MovieForm>
-      <SubmitButton/>
     </div>
   )
 }
 
-export function Home(){
+export function Home(props){
   return(
     <>
       <NavBar></NavBar>
@@ -130,17 +174,8 @@ export function Home(){
   )
 }
 
-export function SubmitButton(){
-  const handleClickEvent = () =>{
-    console.log("The button was clicked!")
-  };
-  return(
-    <div>
-      <button type="button" onClick={handleClickEvent}>Add Movie</button>
-    </div>
-  )
-}
 
+// App
 export function App(){
 
   let [data, setMovies] = useState(null);
@@ -162,8 +197,10 @@ export function App(){
 
   return(
     <>
-      <Home />
+      <Home/>
       <MovieList fav_movies={movies}/>
     </>
   )
 }
+
+
