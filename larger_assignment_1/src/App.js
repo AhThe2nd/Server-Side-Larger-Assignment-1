@@ -1,6 +1,7 @@
 import './App.css';
 import {Link} from "react-router-dom";
 import React, { useEffect, useRef, useState } from 'react';
+import {Routes, Route} from "react-router";
 
 function Header(props){
   return(
@@ -9,9 +10,10 @@ function Header(props){
 }
 
 
-function MovieList(props){
+function Home(props){
   return (
     <>
+    <NavBar/>
       {
         props.fav_movies.map((movie) => (
             <div>
@@ -26,7 +28,7 @@ function MovieList(props){
           )
         )
       }
-    </>    
+    </>  
   )
 }
 
@@ -56,7 +58,7 @@ function stringToArray(actors){
   return actorsArray;
 }
 
-function MovieForm(){
+function MovieForm(props){
   const txtMovieTitle = useRef();
   const txtReleaseDate = useRef();
   const txtActors = useRef();
@@ -82,7 +84,8 @@ function MovieForm(){
       rating: newRating
     }
     alert("Movie review added!")
-    console.log(newMovie);
+    console.log(props.fav_movies);
+    props.fav_movies.push(newMovie);
 
     // Reset values
     txtMovieTitle.current.value = "";
@@ -145,7 +148,7 @@ function MovieForm(){
 }
 
 // Navigation Bar Component
-export function NavBar(props){
+export function NavBar(){
   return(
     <nav>
       <Link to="/">Movie List</Link>
@@ -154,29 +157,26 @@ export function NavBar(props){
   )
 }
 
-// Router pages
-export function AddMovie(){
+function AddMovieHeader(){
   return(
-    <div>
-      <NavBar></NavBar>
-      <h1>New Movie Review</h1>
-      <MovieForm></MovieForm>
-    </div>
+    <h1>New Movie Review Form</h1>
   )
 }
 
-export function Home(props){
+// Router pages
+export function AddMovie(props){
   return(
-    <>
-      <NavBar></NavBar>
-      <Header name="Andrew"></Header>
-    </>
+    <div>
+      <NavBar/>
+      <AddMovieHeader/>
+      <MovieForm fav_movies={props.fav_movies}/>
+    </div>
   )
 }
 
 
 // App
-export function App(){
+export default function App(){
 
   let [data, setMovies] = useState(null);
 
@@ -197,10 +197,13 @@ export function App(){
 
   return(
     <>
-      <Home/>
-      <MovieList fav_movies={movies}/>
+      <Routes>
+        <Route path="/" element={<Home fav_movies={movies} />} />
+        <Route path="/add-movie" element={<AddMovie fav_movies={movies} />} />
+      </Routes>
     </>
-  )
+      
+  );
 }
 
 
