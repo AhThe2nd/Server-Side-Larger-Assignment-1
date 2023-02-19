@@ -11,19 +11,40 @@ function Header(props){
 
 
 function Home(props){
+  const [list, setList] = React.useState(props.fav_movies);
+
+  function removeMovie(name){
+    console.log("remove movie function fired!")
+    const newList = list.filter((movie) => movie.name !== name);
+    console.log(newList);
+    setList(newList);
+
+    // Remove entry from props list
+    props.fav_movies.forEach(movie => {
+      console.log(name);
+      console.log(movie.name);
+      if (movie.name == name){
+        const index = props.fav_movies.indexOf(movie);
+        console.log(index);
+        props.fav_movies.splice(index, 1);
+      }
+    })
+    console.log(props.fav_movies)
+  }
+
   return (
     <>
     <NavBar/>
       {
-        props.fav_movies.map((movie) => (
-            <div>
+        list.map((movie) => (
+            <div key={movie.name}>
               <hr></hr>
               <h2>{movie.name}</h2>
               <h3>Release Date: {movie.release_date}</h3>
               <h3>Starring: {displayActorsNames(movie.actors)}</h3>
               <img src={appendFilePath(movie.poster)} width={250}/>
               <h4>Rating: {movie.rating}/5 Stars</h4>
-              <button>Remove</button>
+              <button type="button" onClick={() => removeMovie(movie.name)}>Remove</button>
             </div>
           )
         )
@@ -59,6 +80,7 @@ function stringToArray(actors){
 }
 
 function MovieForm(props){
+  const [list, setList] = React.useState(props.fav_movies);
   const txtMovieTitle = useRef();
   const txtReleaseDate = useRef();
   const txtActors = useRef();
@@ -84,8 +106,7 @@ function MovieForm(props){
       rating: newRating
     }
     alert("Movie review added!")
-    console.log(props.fav_movies);
-    props.fav_movies.push(newMovie);
+    list.push(newMovie);
 
     // Reset values
     txtMovieTitle.current.value = "";
@@ -95,7 +116,7 @@ function MovieForm(props){
     txtRating.current.value = "";
     
   };
-  return(
+  return(   
     <form onSubmit={submit}>
       <label>
         Enter movie name:
@@ -174,11 +195,10 @@ export function AddMovie(props){
   )
 }
 
-
 // App
 export default function App(){
 
-  let [data, setMovies] = useState(null);
+  let [movies, setMovies] = useState(null);
 
   useEffect(() => {
     // Load movie data from JSON
@@ -188,12 +208,12 @@ export default function App(){
     .catch(e => console.log(e.message))
   }, [])
 
-  if (data == null){
+  if (movies == null){
     return <h3>Loading movies...</h3>
   }
 
   // Convert movies to array
-  let movies = data.movies;
+  movies = movies.movies;
 
   return(
     <>
@@ -205,5 +225,3 @@ export default function App(){
       
   );
 }
-
-
