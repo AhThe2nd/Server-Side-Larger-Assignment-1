@@ -3,7 +3,16 @@ import express from 'express';
 const app = express();
 const port = 8000;
 
+function stringToArray(actors){
+    let actorsArray = actors.split(",");
+    actorsArray.forEach(actor => {
+      actor.trim();
+    });
+    return actorsArray;
+  }
+
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
     res.send("Hello World!");
@@ -31,7 +40,17 @@ app.get('/movies', (req, res) => {
     res.json( movieData );
 });
 
+app.post('/updateMovies', (req, res) => {
+    // Need to convert actors string to array
+    req.body.actors = stringToArray(req.body.actors);
 
+    // Build new JSON to append to movie list
+
+    movieData.movies.push(req.body);
+    console.log(movieData);
+    // res.send(req.body);
+    res.redirect('/');
+})
 
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);

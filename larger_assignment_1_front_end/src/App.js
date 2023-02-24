@@ -105,7 +105,6 @@ function MovieForm(props){
       poster: newPoster,
       rating: newRating
     }
-    alert("Movie review added!")
     list.push(newMovie);
 
     // Reset values
@@ -117,7 +116,7 @@ function MovieForm(props){
     
   };
   return(   
-    <form onSubmit={submit}>
+    <form method="post" action="/updateMovies">
       <label>
         Enter movie name:
         <input ref={txtMovieTitle} type="text" name="title"/>
@@ -135,35 +134,35 @@ function MovieForm(props){
 
       <label>
         Select a poster: 
-        <select ref={txtPoster} name="poster" id="poster" form="add_movie">
-          <option value="adventure.png">Adventure</option>
-          <option value="animation.png">Animation</option>
-          <option value="comedy.png">Comedy</option>
-          <option value="crime.png">Crime</option>
-          <option value="drama.png">Drama</option>
-          <option value="historical.png">Historical</option>
-          <option value="horror.png">Horror</option>
-          <option value="musical.png">Musical</option>
-          <option value="mystery.png">Mystery</option>
-          <option value="romance.png">Romance</option>
-          <option value="scifi.png">Science Fiction</option>
-          <option value="war.png">War</option>
-          <option value="western.png">Western</option>
+        <select ref={txtPoster} name="poster" id="poster">
+          <option value="adventure.png" name="adventure.png">Adventure</option>
+          <option value="animation.png" name="animation.png">Animation</option>
+          <option value="comedy.png" name="comedy.png">Comedy</option>
+          <option value="crime.png" name="crime.png">Crime</option>
+          <option value="drama.png" name="drama.png">Drama</option>
+          <option value="historical.png" name="historical.png">Historical</option>
+          <option value="horror.png" name="horror.png">Horror</option>
+          <option value="musical.png" name="musical.png">Musical</option>
+          <option value="mystery.png" name="mystery.png">Mystery</option>
+          <option value="romance.png" name="romance.png">Romance</option>
+          <option value="scifi.png" name="scifi.png">Science Fiction</option>
+          <option value="war.png" name="war.png">War</option>
+          <option value="western.png" name="western.png">Western</option>
         </select>
       </label><br /><br />
       
 
       <label>
         Select a rating: 
-        <select ref={txtRating} name="rating" id="rating" form="add_movie">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
+        <select ref={txtRating} name="rating" id="rating">
+          <option value="1" name="1">1</option>
+          <option value="2" name="2">2</option>
+          <option value="3" name="3">3</option>
+          <option value="4" name="4">4</option>
+          <option value="5" name="5">5</option>
         </select>
       </label><br /><br />
-      <button>Add Movie</button>
+      <input type="submit" value="submit" />
     </form>
   )
 }
