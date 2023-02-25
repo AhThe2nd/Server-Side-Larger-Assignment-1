@@ -51,7 +51,7 @@ app.post('/updateMovies', (req, res) => {
     req.body.actors = stringToArray(req.body.actors);
 
     // Append new movie and save
-    movieData.movies.push(req.body);
+    movieData.push(req.body);
     saveData();
     console.log(movieData);
     // res.send(req.body);

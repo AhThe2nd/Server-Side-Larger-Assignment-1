@@ -212,9 +212,6 @@ export default function App(){
   }
 
   console.log(movies);
-  // Convert movies to array
-  movies = movies.movies;
-  console.log(movies);
 
   return(
     <>
