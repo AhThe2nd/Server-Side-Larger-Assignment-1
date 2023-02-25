@@ -119,12 +119,12 @@ function MovieForm(props){
     <form method="post" action="/updateMovies">
       <label>
         Enter movie name:
-        <input ref={txtMovieTitle} type="text" name="title"/>
+        <input ref={txtMovieTitle} type="text" name="name"/>
       </label><br /><br />
 
       <label>
         Choose release date: 
-        <input ref={txtReleaseDate} type="date" name="date"/>
+        <input ref={txtReleaseDate} type="date" name="release_date"/>
       </label><br /><br />
 
       <label>

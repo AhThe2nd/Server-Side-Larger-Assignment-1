@@ -1,4 +1,5 @@
 import express from 'express';
+import fs from 'fs';
 
 const app = express();
 const port = 8000;
@@ -18,6 +19,10 @@ app.get('/', (req, res) => {
     res.send("Hello World!");
 });
 
+let movieData = JSON.parse(fs.readFileSync('./movies.json'));
+console.log(movieData);
+
+/*
 let movieData = {
     "movies" : [
         {
@@ -35,6 +40,7 @@ let movieData = {
             "poster" : "romance.png",
             "rating" : 1
         }]};
+*/
 
 app.get('/movies', (req, res) => {
     res.json( movieData );
@@ -44,13 +50,23 @@ app.post('/updateMovies', (req, res) => {
     // Need to convert actors string to array
     req.body.actors = stringToArray(req.body.actors);
 
-    // Build new JSON to append to movie list
-
+    // Append new movie and save
     movieData.movies.push(req.body);
+    saveData();
     console.log(movieData);
     // res.send(req.body);
     res.redirect('/');
-})
+});
+
+const saveData = () => {
+    const dataString = JSON.stringify(movieData);
+    fs.writeFile('./movies.json', dataString, 'utf8', function (error){
+        if (error){
+            console.log("Error while writing JSON to file");
+        }
+        console.log("JSON file updated and saved!")
+    });
+}
 
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
