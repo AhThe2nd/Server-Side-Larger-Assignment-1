@@ -41,7 +41,7 @@ function Home(props){
               <hr></hr>
               <h2>{movie.name}</h2>
               <h3>Release Date: {movie.release_date}</h3>
-              <h3>Starring: {displayActorsNames(movie.actors)}</h3>
+              <h3>Starring: {movie.actors}</h3>
               <img src={appendFilePath(movie.poster)} width={250}/>
               <h4>Rating: {movie.rating}/5 Stars</h4>
               <button type="button" onClick={() => removeMovie(movie.name)}>Remove</button>

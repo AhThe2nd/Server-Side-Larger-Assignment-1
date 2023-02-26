@@ -1,5 +1,6 @@
 import express from 'express';
 import fs from 'fs';
+import { MongoClient } from 'mongodb';
 
 const app = express();
 const port = 8000;
@@ -19,34 +20,45 @@ app.get('/', (req, res) => {
     res.send("Hello World!");
 });
 
+/*
 let movieData = JSON.parse(fs.readFileSync('./movies.json'));
 console.log(movieData);
-
-/*
-let movieData = {
-    "movies" : [
-        {
-            "name" : "The Shawshank Redemption",
-            "release_date" : "1994-09-22",
-            "actors" : ["Morgan Freeman", "Tim Robbins", "Bob Gunton"],
-            "poster" : "crime.png",
-            "rating" : 5
-        },
-
-        {
-            "name" : "Gigli",
-            "release_date" : "2003-08-01",
-            "actors" : ["Ben Affleck", "Jennifer Lopez"],
-            "poster" : "romance.png",
-            "rating" : 1
-        }]};
 */
 
-app.get('/movies', (req, res) => {
+app.get('/movies', async (req, res) => {
+    
+    // Create client object and wait for connection
+    const client = new MongoClient('mongodb://127.0.0.1:27017');
+    await client.connect();
+
+    // Set database
+    const db = client.db('movie_db');
+
+    // Pull data from db and store
+    const movieData = await db.collection('articles').find({}).toArray();
     res.json( movieData );
 });
 
-app.post('/updateMovies', (req, res) => {
+app.post('/updateMovies', async (req, res) => {
+
+     // Create client object and wait for connection
+     const client = new MongoClient('mongodb://127.0.0.1:27017');
+     await client.connect();
+     
+     // Set database
+    const db = client.db('movie_db');
+
+    console.log("REQUEST LOG");
+    console.log(req.body);
+
+    // Insert to database
+    const insertOperation = await db.collection('articles').insertOne(req.body);
+
+    console.log("INSERT LOG");
+    console.log(insertOperation);
+    res.redirect('/');
+    
+    /*
     // Need to convert actors string to array
     req.body.actors = stringToArray(req.body.actors);
 
@@ -55,7 +67,8 @@ app.post('/updateMovies', (req, res) => {
     saveData();
     console.log(movieData);
     // res.send(req.body);
-    res.redirect('/');
+    
+    */
 });
 
 const saveData = () => {
