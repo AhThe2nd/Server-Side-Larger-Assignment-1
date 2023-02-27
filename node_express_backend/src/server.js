@@ -57,18 +57,25 @@ app.post('/updateMovies', async (req, res) => {
     console.log("INSERT LOG");
     console.log(insertOperation);
     res.redirect('/');
-    
-    /*
-    // Need to convert actors string to array
-    req.body.actors = stringToArray(req.body.actors);
+});
 
-    // Append new movie and save
-    movieData.push(req.body);
-    saveData();
-    console.log(movieData);
-    // res.send(req.body);
+app.post('/removeMovie', async (req, res) => {
+
+    // Create client object and wait for connection
+    const client = new MongoClient('mongodb://127.0.0.1:27017');
+    await client.connect();
     
-    */
+    // Set database
+   const db = client.db('movie_db');
+
+   res.send(req.body);
+   console.log("Next line is from the removeMovie method");
+   // console.log(req.body);
+
+   // Delete from database
+   const deleteOperation = await db.collection('articles').deleteOne({"name" : req.body.name});
+   console.log(deleteOperation);
+
 });
 
 const saveData = () => {

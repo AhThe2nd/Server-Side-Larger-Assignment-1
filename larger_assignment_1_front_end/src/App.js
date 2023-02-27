@@ -13,7 +13,17 @@ function Header(props){
 function Home(props){
   const [list, setList] = React.useState(props.fav_movies);
 
-  function removeMovie(name){
+
+  function removeMovie(movie){
+    
+    // This function now sends the data of the movie to be removed to the database
+    fetch('/removeMovie', {
+      method:'POST',
+      body: JSON.stringify(movie),
+      headers: {'Content-Type':'application/json'}
+    });
+
+    /*
     console.log("remove movie function fired!")
     const newList = list.filter((movie) => movie.name !== name);
     console.log(newList);
@@ -30,6 +40,7 @@ function Home(props){
       }
     })
     console.log(props.fav_movies)
+    */
   }
 
   return (
@@ -44,7 +55,7 @@ function Home(props){
               <h3>Starring: {movie.actors}</h3>
               <img src={appendFilePath(movie.poster)} width={250}/>
               <h4>Rating: {movie.rating}/5 Stars</h4>
-              <button type="button" onClick={() => removeMovie(movie.name)}>Remove</button>
+              <button type="button" onClick={() => removeMovie(movie)}>Remove</button>
             </div>
           )
         )
