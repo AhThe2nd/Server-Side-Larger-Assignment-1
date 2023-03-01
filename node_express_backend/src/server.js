@@ -1,31 +1,24 @@
 import express from 'express';
-import fs from 'fs';
+import path from 'path';
 import { MongoClient } from 'mongodb';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = 8000;
 
-function stringToArray(actors){
-    let actorsArray = actors.split(",");
-    actorsArray.forEach(actor => {
-      actor.trim();
-    });
-    return actorsArray;
-  }
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.static(path.join(__dirname, '../posters')));
 
-app.get('/', (req, res) => {
-    res.send("Hello World!");
+app.get(/^(?!\/api).+/, (req, res) => {
+    res.sendFile(path.join(__dirname, '../build/index.html'))
 });
 
-/*
-let movieData = JSON.parse(fs.readFileSync('./movies.json'));
-console.log(movieData);
-*/
-
-app.get('/movies', async (req, res) => {
+app.get('/api/movies', async (req, res) => {
     
     // Create client object and wait for connection
     const client = new MongoClient('mongodb://127.0.0.1:27017');
@@ -39,7 +32,7 @@ app.get('/movies', async (req, res) => {
     res.json( movieData );
 });
 
-app.post('/updateMovies', async (req, res) => {
+app.post('/api/updateMovies', async (req, res) => {
 
      // Create client object and wait for connection
      const client = new MongoClient('mongodb://127.0.0.1:27017');
@@ -76,18 +69,18 @@ app.post('/removeMovie', async (req, res) => {
    const deleteOperation = await db.collection('articles').deleteOne({"name" : req.body.name});
    console.log(deleteOperation);
 
-});
+   // ADD A RESPONSE THAT ONLY FIRES THE REMOVE MOVIE ON FRONT END IF SUCCESSFUL
 
-const saveData = () => {
-    const dataString = JSON.stringify(movieData);
-    fs.writeFile('./movies.json', dataString, 'utf8', function (error){
-        if (error){
-            console.log("Error while writing JSON to file");
-        }
-        console.log("JSON file updated and saved!")
-    });
-}
+});
 
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
 });
+
+function stringToArray(actors){
+    let actorsArray = actors.split(",");
+    actorsArray.forEach(actor => {
+      actor.trim();
+    });
+    return actorsArray;
+  }

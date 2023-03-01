@@ -23,6 +23,10 @@ function Home(props){
       headers: {'Content-Type':'application/json'}
     });
 
+    // ADD A RESPONSE THAT ONLY FIRES THE REMOVE MOVIE ON FRONT END IF SUCCESSFUL
+    
+    
+    
     const newList = list.filter((movie) => movie.name !== name);
     console.log(newList);
     setList(newList);
@@ -51,7 +55,7 @@ function Home(props){
               <h2>{movie.name}</h2>
               <h3>Release Date: {movie.release_date}</h3>
               <h3>Starring: {movie.actors}</h3>
-              <img src={appendFilePath(movie.poster)} width={250}/>
+              <img src={movie.poster} width={250}/>
               <h4>Rating: {movie.rating}/5 Stars</h4>
               <button type="button" onClick={() => removeMovie(movie, movie.name)}>Remove</button>
             </div>
@@ -125,7 +129,7 @@ function MovieForm(props){
     
   };
   return(   
-    <form method="post" action="/updateMovies">
+    <form method="post" action="/api/updateMovies">
       <label>
         Enter movie name:
         <input ref={txtMovieTitle} type="text" name="name"/>
@@ -210,7 +214,7 @@ export default function App(){
 
   useEffect(() => {
     // Load movie data from JSON
-    fetch("/movies")
+    fetch("/api/movies")
     .then(response => response.json())
     .then(setMovies)
     .catch(e => console.log(e.message))
